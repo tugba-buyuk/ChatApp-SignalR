@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Simple Chat App</title>
+    <script src="signalr.min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="site.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+   
+    
+  </head>
+  <body>
+    <div class="row w-100">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-3">
+            <input
+              class="form-control form-control-lg disabled"
+              type="text"
+              placeholder="Oda Adını Giriniz" id="groupName"/>
+            <br>
+            <button type="button" id="btnCreateGroup" class="btn btn-info rightButton disabled" >
+              Oda oluştur
+            </button>
+            <br><br>
+            <select
+              size="5"
+              style="width: 100%"
+              class="form-select disabled rooms"
+              multiple>
+              <option selected value="-1">Tüm Odalar</option>
+            </select>
+            <br>
+            <br>
+            <button type="button" id="btnJoinGroups"  class="btn btn-primary rightButton disabled">
+              Seçili Odalara Gir
+            </button>
+            <br /><br /><br />
+            <div class="list-group clients">
+              <a class="list-group-item list-group-item-action users active"
+                >Tümü
+              </a>
+              <div id="_clients"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div
+              class="alert alert-success"
+              id="clientStatusMessages"
+              style="display: none"></div>
+            <div
+              class="alert alert-success"
+              id="clientJoinedTrigger"
+              style="display: none"></div>
+            <textarea
+              rows="3"
+              class="form-control"
+              style="margin-top: 5px"
+              placeholder="Mesajınız"
+              id="txtMessage"></textarea>
+            <br>
+            <button
+            type="button"
+            class="btn btn-info rightButton disabled"
+            id="btnSendGroup">
+          Seçili Gruba Mesaj  Gönder
+          </button>
+            <button
+              type="button"
+              class="btn btn-warning rightButton disabled"
+              id="btnSend">
+              Gönder
+            </button>
+            
+            <br /><br /><br />
+            <div class="list-group messageGroup">
+              <a
+                class="list-group-item list-group-item-action message-item"
+                aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1"></h5>
+                  <h5 class="mb-2"></h5>
+                </div>
+                <p class="mb-1"></p>
+                
+              </a>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Adınız/Nickname"
+              id="txtNickName"/>
+            <br>
+            <button
+              type="button"
+              class="btn btn-success leftButton"
+              id="btnLogin">
+              Giriş Yap
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </body>
+</html>
