@@ -50,8 +50,12 @@ namespace ChatApp.Hubs
             foreach (var group in groupNames)
             {
                 Group _group = GroupSource.Groups.FirstOrDefault(g => g.GroupName.Equals(group));
-                _group.Clients.Add(client);
-                await Groups.AddToGroupAsync(Context.ConnectionId, group);
+                var result = _group.Clients.Any(c => c.ConnectionId == Context.ConnectionId);
+                if (!result)
+                {
+                    _group.Clients.Add(client);
+                    await Groups.AddToGroupAsync(Context.ConnectionId, group);
+                }
             }
         }
 
@@ -59,7 +63,13 @@ namespace ChatApp.Hubs
         {
             Group group=GroupSource.Groups.FirstOrDefault(g=>g.GroupName.Equals(groupName));
 
-            await Clients.Caller.SendAsync("clientList", group.Clients);
+            await Clients.Caller.SendAsync("clientList", groupName=="-1" ? ClientSource.Clients : group.Clients);
+        }
+
+        public async Task SendMessageToGroup(string groupName,string message)
+        {
+            var client=ClientSource.Clients.FirstOrDefault(c=>c.ConnectionId == Context.ConnectionId);
+            await Clients.Group(groupName).SendAsync("receiveMessage", message, client.NickName);
         }
     }
 }

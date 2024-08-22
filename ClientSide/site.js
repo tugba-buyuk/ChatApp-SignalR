@@ -20,6 +20,7 @@ $(function () {
             connection.invoke("GetNickName",nickName).catch(err=>console.log(`Ocurred a error while sending nickname: ${err}`));
             $(".disabled").removeAttr("disabled");
         });
+        
 
         connection.on("clientJoined",nickName=>{
             $("#clientStatusMessages").html(`${nickName} joined us.`);
@@ -52,6 +53,18 @@ $(function () {
             messageItem.find("h5")[1].innerHTML="sen";
             messageList.append(messageItem);
         });
+        $("#btnSendGroup").on("click",()=>{
+            const message=$("#txtMessage").val();
+            if(gName != ""){
+                connection.invoke("SendMessageToGroup",gName,message);
+                const messageItem= $(".message-item").clone();
+                const messageList=$(".messageGroup");
+                messageItem.removeClass("message-item");
+                messageItem.find("p").html(message);
+                messageItem.find("h5")[1].innerHTML="sen";
+                messageList.append(messageItem);
+            }
+        });
 
         connection.on("receiveMessage",(message,senderClient)=>{
             const messageItem= $(".message-item").clone();
@@ -68,13 +81,13 @@ $(function () {
         })
 
         connection.on("groups",groupList=>{
-            console.log(groupList);
-            let options="";
+            $(".rooms").html="";
+            let options=`<option selected value="-1">Tüm Odalar</option>`;
             $.each(groupList,(index,item)=>{
                 options += `<option value="${item.groupName}">${item.groupName}</option>`;
-                console.log(options);
-            })
-            $(".rooms").append(options);
+            });
+            $(".rooms").html(options);
+
         });
 
         $("#btnJoinGroups").on("click",()=>{
@@ -83,10 +96,11 @@ $(function () {
                 groupNames.push(element.innerHTML));
             connection.invoke("AddClientIntoGroup",groupNames);
         });
-
+        let gName="";
         $(".rooms").on("change",function()
         {
-            const gName=$(this).val()[0];
+            gName=$(this).val()[0];
+            console.log(gName);
             connection.invoke("GetClientsForGroup",gName);
         })
             
